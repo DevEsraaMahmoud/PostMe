@@ -14,8 +14,6 @@
             </div>
            <div class="form-group">
                <textarea name="body" class="form-control" cols="30" rows="10">
-
-
                </textarea>
            </div>
             <button type="submit" class="btn btn-primary" >Submit</button>
