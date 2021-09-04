@@ -22,9 +22,24 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/admin/users/{user}/profile', [App\Http\Controllers\UserController::class, 'show'])->name('user.profile.show');
     Route::put('/admin/users/{user}/update', [App\Http\Controllers\UserController::class, 'update'])->name('user.profile.update');
-    Route::get('/admin/users', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
     Route::delete('/admin/users/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+    Route::put('/admin/users/{user}/attach', [App\Http\Controllers\UserController::class, 'attach'])->name('user.role.attach');
+    Route::put('/admin/users/{user}/detach', [App\Http\Controllers\UserController::class, 'detach'])->name('user.role.detach');
+
+    Route::get('/permissions', [App\Http\Controllers\PermissionController::class, 'index'])->name('permission.index');
+    Route::post('/permissions', [App\Http\Controllers\PermissionController::class, 'store'])->name('permission.store');
+    Route::get('/roles', [App\Http\Controllers\RoleController::class, 'index'])->name('role.index');
+    Route::post('/roles', [App\Http\Controllers\RoleController::class, 'store'])->name('role.store');
+    Route::delete('/roles/{role}/destroy', [App\Http\Controllers\RoleController::class, 'destroy'])->name('roles.destroy');
 
 
 
 });
+Route::middleware('role:admin')->group(function() {
+
+    Route::get('/admin/users', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+
+});
+
+
+

@@ -74,5 +74,84 @@
                 <button type="submit" class="btn btn-primary" >Submit</button>
             </form>
         </div>
-        @stop
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Roles</h6>
+                    </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>slug</th>
+                                <th>Attach</th>
+                                <th>Detach</th>
+                              </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th></th>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>slug</th>
+                                <th>Attach</th>
+                                <th>Detach</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            @foreach($roles as $role)
+                                <tr>
+                                    <th><input type="checkbox"
+                                    @foreach($user->roles as $user_role)
+                                            @if($user_role->slug ==$role->slug)
+                                                checked
+                                                @endif
+                                            @endforeach
+                                        ></th>
+                                    <td>{{$role->id}}</td>
+                                    <td>{{$role->name}}</td>
+                                    <td>{{$role->slug}}</td>
+                                    <td>
+                                        <form method="post" action="{{route('user.role.attach', $user->id)}}" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <button class="btn btn-primary"
+                                            @if($user->roles->contains($role))
+                                                disabled
+                                                @endif
+                                            >Attach</button>
+                                            <input type="hidden" name="role" value="{{$role->id}}">
+                                        </form>
+
+                                    </td>
+                                    <td>
+                                    <form method="post" action="{{route('user.role.detach', $user->id)}}" enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <button class="btn btn-danger"
+                                                @if(!$user->roles->contains($role))
+                                                disabled
+                                                @endif
+                                        >Detach</button>
+                                        <input type="hidden" name="role" value="{{$role->id}}">
+                                    </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+</div>
+            </div>
+        </div>
+    @stop
 </x-admin-master>
